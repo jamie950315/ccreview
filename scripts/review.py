@@ -135,7 +135,7 @@ def sanitize_diff(text):
 
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MODEL = "openai/gpt-5.3-codex"
-REJECTIONS_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "rejections.md")
+REJECTIONS_FILE = os.path.join(os.getcwd(), ".ccreview-rejections.md")
 
 
 # ── API call ─────────────────────────────────────────────────────────────────
@@ -324,9 +324,16 @@ def main():
                         help="Path to file with fixes summary (follow-up mode)")
     parser.add_argument("--model", type=str, default=DEFAULT_MODEL,
                         help=f"Model ID on OpenRouter (default: {DEFAULT_MODEL})")
+    parser.add_argument("--rejections", type=str, default=None,
+                        help="Path to rejections file (default: .ccreview-rejections.md in CWD)")
     parser.add_argument("--output", "-o", type=str,
                         help="Path to save review output (default: stdout)")
     args = parser.parse_args()
+
+    # Override rejections file path if provided
+    if args.rejections:
+        global REJECTIONS_FILE
+        REJECTIONS_FILE = args.rejections
 
     # API key
     api_key = os.environ.get("OPENROUTER_API_KEY")

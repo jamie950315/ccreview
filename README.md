@@ -8,7 +8,7 @@ Cross-model code review skill for [Claude Code](https://docs.anthropic.com/en/do
 - **Cross-model perspective**: GPT-5.3-Codex reviews, Claude triages and applies fixes
 - **Sensitive file protection**: Auto-excludes `.env`, `*.pem`, `*.key`, credentials, etc.
 - **Secret redaction**: Regex-based redaction of API keys, tokens, JWTs before sending to API
-- **Rejection history**: Persists rejected suggestions so the reviewer doesn't repeat them
+- **Rejection history**: Per-project rejection tracking (`.ccreview-rejections.md`) so the reviewer doesn't repeat them
 
 ## Installation
 
@@ -56,9 +56,11 @@ You finish coding
 ```
 ccreview/
   SKILL.md          # Skill definition and workflow instructions
-  rejections.md     # Persistent rejection history (auto-maintained)
   scripts/
     review.py       # Python script — calls OpenRouter API
+
+# In each project directory (auto-created by the skill):
+.ccreview-rejections.md   # Per-project rejection history
 ```
 
 ## Configuration

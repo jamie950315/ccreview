@@ -144,7 +144,7 @@ If the follow-up review raises new concerns:
 
 Present the final status to the user.
 
-**Update rejection history**: After the review is complete, append any **newly rejected** suggestions to `~/.claude/skills/ccreview/rejections.md`. Use this format:
+**Update rejection history**: After the review is complete, append any **newly rejected** suggestions to `.ccreview-rejections.md` in the **project root directory** (the current working directory). Use this format:
 
 ```markdown
 ## <Short issue title>
@@ -153,9 +153,9 @@ Present the final status to the user.
 - **Rejected**: 1 time.
 ```
 
-If a suggestion was already in `rejections.md` and was rejected again, increment its count instead of adding a duplicate. The script automatically includes this file in the system prompt to prevent GPT-5.3-Codex from repeating previously rejected suggestions.
+If a suggestion was already in `.ccreview-rejections.md` and was rejected again, increment its count instead of adding a duplicate. The script automatically includes this file in the system prompt to prevent GPT-5.3-Codex from repeating previously rejected suggestions.
 
-**Remove stale rejections**: If a previously rejected suggestion is **accepted** in a new review (e.g., because the codebase changed), remove it from `rejections.md`.
+**Remove stale rejections**: If a previously rejected suggestion is **accepted** in a new review (e.g., because the codebase changed), remove it from `.ccreview-rejections.md`.
 
 ## Cleanup
 
@@ -177,6 +177,7 @@ Options:
   --original-review PATH      Original review file (follow-up mode)
   --fixes-summary PATH        Fixes summary file (follow-up mode)
   --model MODEL               OpenRouter model ID (default: openai/gpt-5.3-codex)
+  --rejections PATH            Path to rejections file (default: .ccreview-rejections.md in CWD)
   --output PATH               Save output to file (default: stdout)
 ```
 
