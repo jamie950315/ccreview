@@ -177,7 +177,7 @@ Options:
   --original-review PATH      Original review file (follow-up mode)
   --fixes-summary PATH        Fixes summary file (follow-up mode)
   --model MODEL               OpenRouter model ID (default: openai/gpt-5.3-codex)
-  --rejections PATH            Path to rejections file (default: .ccreview-rejections.md in CWD)
+  --rejections PATH            Path to rejections file (default: .ccreview-rejections.md in project root)
   --output PATH               Save output to file (default: stdout)
 ```
 

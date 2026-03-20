@@ -28,6 +28,7 @@ import fnmatch
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.error
 import urllib.request
@@ -135,7 +136,15 @@ def sanitize_diff(text):
 
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 DEFAULT_MODEL = "openai/gpt-5.3-codex"
-REJECTIONS_FILE = os.path.join(os.getcwd(), ".ccreview-rejections.md")
+def _find_project_root():
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "--show-toplevel"], text=True, stderr=subprocess.DEVNULL
+        ).strip()
+    except Exception:
+        return os.getcwd()
+
+REJECTIONS_FILE = os.path.join(_find_project_root(), ".ccreview-rejections.md")
 
 
 # ── API call ─────────────────────────────────────────────────────────────────
@@ -325,7 +334,7 @@ def main():
     parser.add_argument("--model", type=str, default=DEFAULT_MODEL,
                         help=f"Model ID on OpenRouter (default: {DEFAULT_MODEL})")
     parser.add_argument("--rejections", type=str, default=None,
-                        help="Path to rejections file (default: .ccreview-rejections.md in CWD)")
+                        help="Path to rejections file (default: .ccreview-rejections.md in project root)")
     parser.add_argument("--output", "-o", type=str,
                         help="Path to save review output (default: stdout)")
     args = parser.parse_args()
