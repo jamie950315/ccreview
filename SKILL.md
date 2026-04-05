@@ -1,24 +1,24 @@
 ---
 name: ccreview
-description: "Cross-model code review using GPT-5.3-Codex via OpenRouter. After completing code changes, sends the diff to GPT-5.3-Codex for review. Claude then examines each suggestion, accepts or rejects with reasoning, applies fixes, and sends a follow-up round so GPT-5.3-Codex can verify the fixes and evaluate rejections. Trigger on: 'code review', 'ccreview', 'review my code', 'get a second opinion', 'cross-model review'."
+description: "Cross-model code review using GPT-5.4 via OpenRouter. After completing code changes, sends the diff to GPT-5.4 for review. Claude then examines each suggestion, accepts or rejects with reasoning, applies fixes, and sends a follow-up round so GPT-5.4 can verify the fixes and evaluate rejections. Trigger on: 'code review', 'ccreview', 'review my code', 'get a second opinion', 'cross-model review'."
 ---
 
-# Code Review Skill (GPT-5.3-Codex via OpenRouter)
+# Code Review Skill (GPT-5.4 via OpenRouter)
 
 ## Overview
 
 Two-round cross-model code review workflow:
 
-1. **Round 1**: Send code changes to GPT-5.3-Codex for review
+1. **Round 1**: Send code changes to GPT-5.4 for review
 2. **Triage**: Claude examines each suggestion — accept or reject with reasoning
 3. **Fix**: Claude applies accepted fixes
-4. **Round 2**: Send updated code + triage summary back to GPT-5.3-Codex for final verdict
+4. **Round 2**: Send updated code + triage summary back to GPT-5.4 for final verdict
 
 ## Prerequisites
 
 - **OpenRouter API Key** as `export OPENROUTER_API_KEY=...` in `~/.zshrc` or `~/.bashrc`
 - Python 3.8+
-- The default model is `openai/gpt-5.3-codex` — override with `--model` if needed
+- The default model is `openai/gpt-5.4` — override with `--model` if needed
 
 ## Workflow (Step-by-Step)
 
@@ -61,7 +61,7 @@ python3 ~/.claude/skills/ccreview/scripts/review.py \
 
 Optional flags:
 - `--context "migrating auth from JWT to session tokens"` — helps the reviewer understand intent
-- `--model openai/gpt-5.3-codex` — override model if needed
+- `--model openai/gpt-5.4` — override model if needed
 
 Read the output file and present the review to the user.
 
@@ -132,7 +132,7 @@ python3 ~/.claude/skills/ccreview/scripts/review.py \
   --output /tmp/cr_review_round2.txt
 ```
 
-Read and present the follow-up review to the user. This tells GPT-5.3-Codex:
+Read and present the follow-up review to the user. This tells GPT-5.4:
 - What was fixed (so it can verify correctness)
 - What was rejected and why (so it can evaluate the reasoning)
 
@@ -153,7 +153,7 @@ Present the final status to the user.
 - **Rejected**: 1 time.
 ```
 
-If a suggestion was already in `.ccreview-rejections.md` and was rejected again, increment its count instead of adding a duplicate. The script automatically includes this file in the system prompt to prevent GPT-5.3-Codex from repeating previously rejected suggestions.
+If a suggestion was already in `.ccreview-rejections.md` and was rejected again, increment its count instead of adding a duplicate. The script automatically includes this file in the system prompt to prevent GPT-5.4 from repeating previously rejected suggestions.
 
 **Remove stale rejections**: If a previously rejected suggestion is **accepted** in a new review (e.g., because the codebase changed), remove it from `.ccreview-rejections.md`.
 
@@ -176,7 +176,7 @@ Options:
   --context TEXT              Additional context for the reviewer
   --original-review PATH      Original review file (follow-up mode)
   --fixes-summary PATH        Fixes summary file (follow-up mode)
-  --model MODEL               OpenRouter model ID (default: openai/gpt-5.3-codex)
+  --model MODEL               OpenRouter model ID (default: openai/gpt-5.4)
   --rejections PATH            Path to rejections file (default: .ccreview-rejections.md in project root)
   --output PATH               Save output to file (default: stdout)
 ```

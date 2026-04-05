@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Code review via OpenRouter API (GPT-5.3-Codex).
+Code review via OpenRouter API (GPT-5.4).
 
 Two modes:
   - review:    Initial code review — returns structured feedback
@@ -135,7 +135,7 @@ def sanitize_diff(text):
 # ── Constants ────────────────────────────────────────────────────────────────
 
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "openai/gpt-5.3-codex"
+DEFAULT_MODEL = "openai/gpt-5.4"
 def _find_project_root():
     try:
         return subprocess.check_output(
@@ -156,6 +156,7 @@ def call_openrouter(api_key, model, messages, temperature=0.3):
         "messages": messages,
         "temperature": temperature,
         "max_tokens": 16384,
+        "reasoning": {"effort": "high"},
     }
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
